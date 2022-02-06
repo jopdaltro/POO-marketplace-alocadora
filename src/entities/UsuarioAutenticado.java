@@ -109,8 +109,69 @@ public class UsuarioAutenticado extends Usuario {
 		}
 	}
 	
-	public boolean logar(UsuarioAutenticado usuarioAutenticado) {
-		return usuarioAutenticado.logado();
+	public void editarAnuncio(UsuarioAutenticado usuarioAutenticado) {
+		Scanner scan = new Scanner(System.in);
+		for (Produto listaDeProdutoDoUsuario : usuarioAutenticado.getListProdutos()) {
+			System.out.println(listaDeProdutoDoUsuario);
+		}
+		System.out.println("digite o codigo do anuncio que quer atualizar: ");
+		int codigo = scan.nextInt();
+		scan.nextLine();
+		for (Produto listaDeProdutoDoUsuario : usuarioAutenticado.getListProdutos()) {
+			
+			if (codigo == listaDeProdutoDoUsuario.getCodigo()) {
+				System.out.print("informe seu ununcio");
+				String anuncio = scan.nextLine();
+				listaDeProdutoDoUsuario.setNome(anuncio);
+				System.out.print("informe preco diario");
+				double precoDiario = scan.nextDouble();
+				listaDeProdutoDoUsuario.setPrecoDiario(precoDiario);
+				System.out.print("quantidades de pessoas");
+				int quantidadesDePessoas = scan.nextInt();
+				listaDeProdutoDoUsuario.setHospedesQtd(quantidadesDePessoas);
+				scan.nextLine();
+
+				break;
+			}
+			
+
+		}
 	}
+	
+	public void excluirAnuncio(UsuarioAutenticado usuarioAutenticado, List<Produto> listProdutos) {
+		Scanner scan = new Scanner(System.in);
+		for (Produto a : usuarioAutenticado.getListProdutos()) {
+			System.out.println(a);
+		}
+		System.out.println("Digite o codigo do anuncio que quer deletar: ");
+		int codigo = scan.nextInt();
+		int i = 0;
+		int j = 0;
+		for (Produto a : usuarioAutenticado.getListProdutos()) {
+
+			if (codigo == a.getCodigo()) {
+				usuarioAutenticado.removerProduto(i);
+				for (Produto b : listProdutos) {
+
+					if (codigo == b.getCodigo()) {
+						listProdutos.remove(j);
+						System.out.println("Item removido com sucesso");
+						break;
+
+					}
+					j++;
+
+				}
+				break;
+
+			}
+
+			i++;
+
+		}
+	}
+	
+	
+
 
 }

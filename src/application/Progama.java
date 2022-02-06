@@ -16,26 +16,44 @@ public class Progama {
 		UsuarioAutenticado usuario2 = new UsuarioAutenticado("cece", "daltro", "1", "3", "1234", "1234", "1224");
 		UsuarioAutenticado usuario3 = new UsuarioAutenticado("lipe", "daltro", "1", "4", "1234", "1234", "1224");
 		Scanner scan = new Scanner(System.in);
-		Produto produto1 = new Produto("casa bahia", 1, 1, 1.0);
-		Produto produto2 = new Produto("apart sp", 1, 1, 2.0);
-		Produto produto3 = new Produto("minas gerais", 1, 1, 3.0);
+		Produto produto1 = new Produto("casa bahia", 1, 1, 1);
+		Produto produto2 = new Produto("apart sp", 1, 1, 2);
+		Produto produto3 = new Produto("minas gerais", 1, 1, 3);
+		Produto produto4 = new Produto("Rio dde janeiro", 1, 1, 4);
+		Produto produto5 = new Produto("Orlando", 1, 1, 5);
+		Produto produto6 = new Produto("São luiz", 1, 1, 6);
+		Produto produto7 = new Produto("Ceara", 1, 1, 7);
+	
 		usuario.addProduto(produto1);
+		usuario.addProduto(produto2);
+		usuario.addProduto(produto3);
+		usuario.addProduto(produto4);
+		usuario.addProduto(produto5);
+		usuario.addProduto(produto6);
+		usuario.addProduto(produto7);
+		
 
-		Metodos metodos = new Metodos();
-		List<Produto> list = new ArrayList<>();
+		List<Produto> listProdutos = new ArrayList<>();
 		List<UsuarioAutenticado> listUsuarios = new ArrayList<>();
-		UsuarioAutenticado usuarioLogado[] = new UsuarioAutenticado[1];
+		
 		listUsuarios.add(usuario);
 		listUsuarios.add(usuario2);
+		listUsuarios.add(usuario3);
+		
 
-		list.add(produto1);
-		list.add(produto2);
-		list.add(produto3);
+		listProdutos.add(produto1);
+		listProdutos.add(produto2);
+		listProdutos.add(produto3);
+		listProdutos.add(produto4);
+		listProdutos.add(produto5);
+		listProdutos.add(produto6);
+		listProdutos.add(produto7);
 
 		int status = 0;
-		double codigo;
-		usuario.deslogado();
+		
+		
 		UsuarioAutenticado usuarioAutenticado = new UsuarioAutenticado();
+		
 
 		while (status != 4) {
 			System.out.println("-------------MENU--------------");
@@ -48,11 +66,11 @@ public class Progama {
 			switch (op) {
 
 			case 1:
-				metodos.listarAnuncios(list);
+				usuario.listarAnuncios(listProdutos);
 				break;
 
 			case 2:
-				metodos.detalhesAnuncio(list);
+				usuario.detalhesAnuncio(listProdutos);
 
 				break;
 			case 3:
@@ -60,92 +78,38 @@ public class Progama {
 				break;
 
 			case 4:
-				usuario.fazerLogin(listUsuarios, usuarioAutenticado);
+				usuarioAutenticado = usuario.fazerLogin(listUsuarios, usuarioAutenticado);
 
 				break;
 			case 5:
-				if (!usuario.logado()) {
-					usuarioAutenticado.cadastrarAnuncio(usuarioAutenticado, list);
+				if(usuarioAutenticado.getEmail()!=null) {
+				usuarioAutenticado.cadastrarAnuncio(usuarioAutenticado, listProdutos);
 				}else {
 					System.out.println("não autenticado");
 				}
 				break;
 
 			case 6:
-				if (status == 1) {
-
-				}
+				status = 4;
 			case 7:
-				if (!usuario.logado()) {
-					usuarioAutenticado.listarAnunciosUsuario(usuarioAutenticado);
+				if(usuarioAutenticado.getEmail()!=null) {
+				usuarioAutenticado.listarAnunciosUsuario(usuarioAutenticado);
 				}
+				
 				break;
 
 			case 8:
-				if (status == 1) {
-					for (Produto a : usuarioLogado[0].getListProdutos()) {
-						System.out.println(a);
-					}
-					System.out.println("digite o codigo do anuncio que quer atualizar: ");
-					codigo = scan.nextInt();
-					scan.nextLine();
-					for (Produto a : usuarioLogado[0].getListProdutos()) {
-						int i = 0;
-						if (codigo == a.getCodigo()) {
-							System.out.print("informe seu ununcio");
-							String anuncio = scan.nextLine();
-							a.setNome(anuncio);
-							System.out.print("informe preco diario");
-							double precoDiario = scan.nextDouble();
-							a.setPrecoDiario(precoDiario);
-							System.out.print("quantidades de pessoas");
-							int quantidadesDePessoas = scan.nextInt();
-							a.setHospedesQtd(quantidadesDePessoas);
-							scan.nextLine();
-
-							break;
-						}
-						i++;
-
-					}
-				} else {
+				if (usuarioAutenticado.getEmail()!=null) {
+					usuarioAutenticado.editarAnuncio(usuarioAutenticado);
+					} else {
 					System.out.println("Usuario não autenticado");
 				}
 				break;
 
 			case 9:
-				if (status == 1) {
-					for (Produto a : usuarioLogado[0].getListProdutos()) {
-						System.out.println(a);
-					}
-					System.out.println("Digite o codigo do anuncio que quer deletar: ");
-					codigo = scan.nextInt();
-					int i = 0;
-					int j = 0;
-					for (Produto a : usuarioLogado[0].getListProdutos()) {
-
-						if (codigo == a.getCodigo()) {
-							usuarioLogado[0].removerProduto(i);
-							for (Produto b : list) {
-
-								if (codigo == b.getCodigo()) {
-									list.remove(j);
-									System.out.println("Item removido com sucesso");
-									break;
-
-								}
-								j++;
-
-							}
-							break;
-
-						}
-
-						i++;
-
-					}
-
-				} else {
+				if (usuarioAutenticado.getEmail()!=null) {
+				usuarioAutenticado.excluirAnuncio(usuarioAutenticado,listProdutos);
+				}else {
 					System.out.println("Usuario não autenticado. ");
 				}
 			}

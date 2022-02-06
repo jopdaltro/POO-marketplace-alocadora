@@ -7,47 +7,61 @@ import java.util.Scanner;
 
 public class Usuario {
 
-	
-	Usuario(){
-		
+	public Usuario() {
+
 	}
-	
+
+	public void listarAnuncios(List<Produto> list) {
+		System.out.println("anuncios");
+		for (Produto a : list) {
+			System.out.println(a.toString());
+		}
+
+	}
+
+	public void detalhesAnuncio(List<Produto> list) {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("voce quer detalhes de qual anuncio? digite o codigo do anuncio");
+		for (Produto a : list) {
+			System.out.println(a.getNome());
+		}
+		double codigo = scan.nextDouble();
+		for (Produto a : list) {
+
+			if (codigo == a.getCodigo()) {
+				System.out.println(a.toString());
+
+			}
+		}
+
+	}
+
 	public boolean logado() {
-		
+
 		return true;
-		
+
 	}
-	public boolean deslogado() {
-		return false;
-	}
-	
+
 	public void criarConta(List<UsuarioAutenticado> listUsuarios) {
 		System.out.println(
 				"criar uma conta como usuário comum: nome, sobrenome, CPF, email, telefone, CEP e senha. (P1)\r\n"
 						+ "");
+		UsuarioAutenticado usuario = new UsuarioAutenticado();
 		Scanner scan = new Scanner(System.in);
 		System.out.println("nome:");
-		String nome = scan.nextLine();
-		System.out.println("sobrenome:");
-		String sobrenome = scan.nextLine();
-		System.out.println("cpf:");
-		String cpf = scan.nextLine();
+		usuario.setNome(scan.nextLine());
 		System.out.println("email:");
-		String email = scan.nextLine();
-		System.out.println("telefone:");
-		String telefone = scan.nextLine();
-		System.out.println("cep:");
-		String cep = scan.nextLine();
+		usuario.setEmail(scan.nextLine());
 		System.out.println("senha:");
-		String senha = scan.nextLine();
+		usuario.setSenha(scan.nextLine());
+		
 
-		UsuarioAutenticado usuario = new UsuarioAutenticado(nome, sobrenome, email, senha, cpf, cep, telefone);
 		listUsuarios.add(usuario);
 		System.out.println("usuario cadastrado");
 		System.out.println(usuario.toString());
 	}
-	
-	public void fazerLogin(List<UsuarioAutenticado> listUsuarios, Usuario usuario) {
+
+	public UsuarioAutenticado fazerLogin(List<UsuarioAutenticado> listUsuarios, UsuarioAutenticado usuario) {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("logar");
 		System.out.println("email");
@@ -55,19 +69,16 @@ public class Usuario {
 		System.out.println("senha");
 		String senha = scan.nextLine();
 
-		for (UsuarioAutenticado a : listUsuarios) {
-			if (login.equals(a.getEmail()) && senha.equals(a.getSenha())) {
-				System.out.println("bem vindo " + a.getNome());
-				usuario = new UsuarioAutenticado();
-				usuario = a;
+		for (UsuarioAutenticado usuarioDaLista : listUsuarios) {
+			if (login.equals(usuarioDaLista.getEmail()) && senha.equals(usuarioDaLista.getSenha())) {
+				System.out.println("bem vindo " + usuarioDaLista.getNome());
+				usuario = usuarioDaLista;
 				
-				
-				
+
 			}
 		}
-	}
-	
+		return usuario;
 
-	
+	}
 
 }
